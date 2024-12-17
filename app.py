@@ -1,4 +1,6 @@
 from flask import Flask
+
+from models import order
 from models.database import db
 from routes.bot_routes import bot_bp
 from routes.user_routes import user_routes
@@ -14,7 +16,8 @@ def create_app():
 
     # Register blueprints
     app.register_blueprint(user_routes, url_prefix="/api")
-    app.register_blueprint(bot_bp, url_prefix="/api")
+    app.register_blueprint(user_routes, url_prefix="/bots")
+    app.register_blueprint(user_routes, url_prefix="/orders")
 
     return app
 

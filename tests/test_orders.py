@@ -3,7 +3,7 @@ from flask import Flask, json
 from models.database import db
 from models.order import Order
 from models.bot import Bot
-from order_routes import order_bp
+from routes.order_routes import order_bp
 
 class OrderRoutesTestCase(unittest.TestCase):
     def setUp(self):
@@ -39,42 +39,42 @@ class OrderRoutesTestCase(unittest.TestCase):
             db.drop_all()
 
     def test_get_order_details(self):
-        # Test de récupération des détails d'une commande existante
         response = self.client.get("/orders/1")
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
+        self.assertIsNotNone(data)
         self.assertEqual(data["id"], 1)
         self.assertEqual(data["bot_name"], "Bot A")
         self.assertEqual(data["status"], "en attente")
 
     def test_get_order_not_found(self):
-        # Test de récupération d'une commande inexistante
         response = self.client.get("/orders/999")
         self.assertEqual(response.status_code, 404)
         data = response.get_json()
+        self.assertIsNotNone(data)
         self.assertEqual(data["error"], "Order not found")
 
     def test_update_order_status(self):
-        # Test de mise à jour du statut d'une commande
         updated_data = {"status": "livrée"}
         response = self.client.put("/orders/1", json=updated_data)
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
+        self.assertIsNotNone(data)
         self.assertEqual(data["status"], "livrée")
 
     def test_update_order_not_found(self):
-        # Test de mise à jour d'une commande inexistante
         updated_data = {"status": "annulée"}
         response = self.client.put("/orders/999", json=updated_data)
         self.assertEqual(response.status_code, 404)
         data = response.get_json()
+        self.assertIsNotNone(data)
         self.assertEqual(data["error"], "Order not found")
 
     def test_update_order_status_missing_field(self):
-        # Test de mise à jour sans fournir de statut
         response = self.client.put("/orders/1", json={})
         self.assertEqual(response.status_code, 400)
         data = response.get_json()
+        self.assertIsNotNone(data)
         self.assertEqual(data["error"], "Status is required")
 
 

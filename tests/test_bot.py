@@ -33,45 +33,42 @@ class BotRoutesTestCase(unittest.TestCase):
             db.drop_all()
 
     def test_get_bots(self):
-        # Test de récupération de la liste des bots
-        response = self.client.get("/api/bots")
-        data = json.loads(response.data)
-
+        response = self.client.get("/bots")
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.is_json, "Response is not JSON")
+        data = response.get_json()
         self.assertEqual(len(data), 2)
         self.assertEqual(data[0]["name"], "Bot A")
         self.assertEqual(data[1]["name"], "Bot B")
 
     def test_get_bots_empty(self):
-        # Suppression des bots existants pour tester une liste vide
         with self.app.app_context():
             Bot.query.delete()
             db.session.commit()
 
-        response = self.client.get("/api/bots")
-        data = json.loads(response.data)
-
+        response = self.client.get("/bots")
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.is_json, "Response is not JSON")
+        data = response.get_json()
         self.assertEqual(data, [])
 
     def test_update_bot(self):
-        # Test de mise à jour d'un bot existant
         updated_data = {"name": "Updated Bot", "price": 199.99}
-        response = self.client.put("/api/bots/1", json=updated_data)
-        data = json.loads(response.data)
-
+        response = self.client.put("/bots/1", json=updated_data)
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.is_json, "Response is not JSON")
+        data = response.get_json()
         self.assertEqual(data["name"], "Updated Bot")
         self.assertEqual(data["price"], 199.99)
 
     def test_update_bot_not_found(self):
-        # Test de mise à jour d'un bot qui n'existe pas
         updated_data = {"name": "Nonexistent Bot", "price": 299.99}
-        response = self.client.put("/api/bots/999", json=updated_data)
-        data = json.loads(response.data)
-
+        response = self.client.put("/bots/999", json=updated_data)
         self.assertEqual(response.status_code, 404)
+        self.assertTrue(response.is_json, "Response is not JSON")
+        data = response.get_json()
         self.assertEqual(data["error"], "Bot not found")
+
 
 if __name__ == "__main__":
     unittest.main()

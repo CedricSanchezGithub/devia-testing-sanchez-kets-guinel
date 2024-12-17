@@ -2,15 +2,6 @@ User Stories
 1. Service 1 : Gestion des Produits (Bots)
 Créer un bot (POST /bots)
 
-En tant qu'administrateur,
-Je veux ajouter un nouveau bot dans le catalogue,
-Afin que les clients puissent le voir et l'acheter.
-Critères d'acceptation :
-Une requête valide contient { nom, description, prix }.
-Le bot est enregistré en base de données et retourne un ID unique.
-Une erreur 400 est renvoyée si des champs requis sont manquants.
-Récupérer tous les bots (GET /bots)
-
 En tant qu'utilisateur,
 Je veux voir la liste des bots disponibles,
 Afin de choisir lequel acheter.
@@ -18,6 +9,19 @@ Critères d'acceptation :
 Le système renvoie une liste de bots avec { id, nom, prix }.
 Si aucun bot n'existe, une liste vide est retournée.
 Mettre à jour un bot (PUT /bots/:id)
+
+En tant que client,
+Je veux créer une commande pour un bot,
+Afin de procéder à son achat.
+Critères d'acceptation :
+Une requête valide contient { bot_id, client_id, quantité }.
+Le système crée une commande avec un statut en attente.
+Récupérer une commande (GET /orders/:id)
+
+En tant que client,
+Je veux consulter les détails de ma commande,
+Afin de voir son statut et le bot commandé.
+Mettre à jour le statut de commande (PUT /orders/:id)
 
 En tant qu'administrateur,
 Je veux mettre à jour les informations d’un bot,
@@ -37,19 +41,6 @@ Si l'ID n'existe pas, renvoie 404.
 2. Service 2 : Gestion des Commandes
 Créer une commande (POST /orders)
 
-En tant que client,
-Je veux créer une commande pour un bot,
-Afin de procéder à son achat.
-Critères d'acceptation :
-Une requête valide contient { bot_id, client_id, quantité }.
-Le système crée une commande avec un statut en attente.
-Récupérer une commande (GET /orders/:id)
-
-En tant que client,
-Je veux consulter les détails de ma commande,
-Afin de voir son statut et le bot commandé.
-Mettre à jour le statut de commande (PUT /orders/:id)
-
 En tant qu'administrateur,
 Je veux changer le statut de la commande (ex : "expédiée"),
 Afin de suivre les étapes de livraison.
@@ -58,3 +49,12 @@ Supprimer une commande (DELETE /orders/:id)
 En tant qu'administrateur,
 Je veux supprimer une commande,
 Afin de gérer les erreurs ou les demandes de remboursement.
+
+En tant qu'administrateur,
+Je veux ajouter un nouveau bot dans le catalogue,
+Afin que les clients puissent le voir et l'acheter.
+Critères d'acceptation :
+Une requête valide contient { nom, description, prix }.
+Le bot est enregistré en base de données et retourne un ID unique.
+Une erreur 400 est renvoyée si des champs requis sont manquants.
+Récupérer tous les bots (GET /bots)

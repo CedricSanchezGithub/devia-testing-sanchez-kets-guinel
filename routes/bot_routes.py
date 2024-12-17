@@ -11,7 +11,6 @@ def get_bots():
         return jsonify([]), 200
     return jsonify([bot.to_dict() for bot in bots]), 200
 
-# Route PUT pour mettre à jour un bot existant
 @bot_bp.route("/bots/<int:id>", methods=["PUT"])
 def update_bot(id):
     bot = Bot.query.get(id)

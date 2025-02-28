@@ -7,19 +7,19 @@ from routes.order_routes import order_bp
 
 class OrderRoutesTestCase(unittest.TestCase):
     def setUp(self):
-        # Configuration de l'application Flask pour les tests
+
         self.app = Flask(__name__)
         self.app.config["TESTING"] = True
         self.app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
         self.app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-        # Initialisation de la base de données
+
         db.init_app(self.app)
         self.app.register_blueprint(order_bp, url_prefix="/orders")
 
         with self.app.app_context():
             db.create_all()
-            # Ajouter des données de test
+
             bot1 = Bot(name="Bot A", price=99.99)
             bot2 = Bot(name="Bot B", price=149.99)
             db.session.add_all([bot1, bot2])
@@ -33,7 +33,7 @@ class OrderRoutesTestCase(unittest.TestCase):
         self.client = self.app.test_client()
 
     def tearDown(self):
-        # Nettoyage de la base de données après chaque test
+
         with self.app.app_context():
             db.session.remove()
             db.drop_all()

@@ -2,10 +2,10 @@ from flask import Blueprint, jsonify, request
 from models.database import db
 from models.order import Order
 
-order_bp = Blueprint("orders", __name__)
+order_routes = Blueprint("order_routes", __name__)
 
 # Route GET pour consulter les détails d'une commande
-@order_bp.route("/orders/<int:id>", methods=["GET"])
+@order_routes.route("/orders/<int:id>", methods=["GET"])
 def get_order_details(id):
     order = Order.query.get(id)
     if not order:
@@ -14,7 +14,7 @@ def get_order_details(id):
     return jsonify(order.to_dict()), 200
 
 # Route PUT pour mettre à jour le statut de la commande
-@order_bp.route("/orders/<int:id>", methods=["PUT"])
+@order_routes.route("/orders/<int:id>", methods=["PUT"])
 def update_order_status(id):
     order = Order.query.get(id)
     if not order:

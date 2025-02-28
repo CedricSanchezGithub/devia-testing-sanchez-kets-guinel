@@ -3,7 +3,7 @@ from flask import Flask, json
 from models.database import db
 from models.order import Order
 from models.bot import Bot
-from routes.order_routes import order_bp
+from routes.order_routes import order_routes
 
 class OrderRoutesTestCase(unittest.TestCase):
     def setUp(self):
@@ -15,7 +15,7 @@ class OrderRoutesTestCase(unittest.TestCase):
 
 
         db.init_app(self.app)
-        self.app.register_blueprint(order_bp, url_prefix="/orders")
+        self.app.register_blueprint(order_routes, url_prefix="/orders")
 
         with self.app.app_context():
             db.create_all()

@@ -2,7 +2,8 @@ import unittest
 from flask import Flask, json
 from models.database import db
 from models.bot import Bot
-from routes.bot_routes import bot_bp
+from routes.bot_routes import bots_routes
+
 
 class BotRoutesTestCase(unittest.TestCase):
     def setUp(self):
@@ -14,7 +15,7 @@ class BotRoutesTestCase(unittest.TestCase):
 
         # Initialisation de la base de données
         db.init_app(self.app)
-        self.app.register_blueprint(bot_bp)
+        self.app.register_blueprint(bots_routes)
 
         with self.app.app_context():
             db.create_all()

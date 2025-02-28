@@ -2,16 +2,16 @@ from flask import Blueprint, jsonify, request
 from models.database import db
 from models.bot import Bot
 
-bot_bp = Blueprint("bots", __name__)
+bots_routes = Blueprint("bots_routes", __name__)
 
-@bot_bp.route("/bots", methods=["GET"])
+@bots_routes.route("/bots", methods=["GET"])
 def get_bots():
     bots = Bot.query.all()
     if not bots:
         return jsonify([]), 200
     return jsonify([bot.to_dict() for bot in bots]), 200
 
-@bot_bp.route("/bots/<int:id>", methods=["PUT"])
+@bots_routes.route("/bots/<int:id>", methods=["PUT"])
 def update_bot(id):
     bot = Bot.query.get(id)
     if not bot:
